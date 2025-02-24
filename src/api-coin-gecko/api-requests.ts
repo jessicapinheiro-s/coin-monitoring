@@ -23,4 +23,16 @@ export async function getPopularCoins(currency: string, qtd: string) {
   }
 }
 
+export async function getCoinInfoById(id: string) {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${id}`
+    );
+    const data = await response.json();
+    return data
+  } catch (error) {
+    console.error("Erro ao buscar dados:", error);
+  }
+}
+
 

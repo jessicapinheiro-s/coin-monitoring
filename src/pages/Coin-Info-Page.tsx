@@ -1,13 +1,28 @@
+import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
+import { useEffect, useState } from "react";
+import { getCoinInfoById } from "../api-coin-gecko/api-requests";
 
 export default function CoinInfoPage() {
+  const [paramsSearch, setSearchParams] = useSearchParams();
+  const idItem = paramsSearch.get("id");
+  const [infoThisCoin, setThisCoinInfo] = useState();
+
+  const itemInfo = async () => {
+    if (idItem) {
+      const respondeInfo = await getCoinInfoById(idItem);
+      setThisCoinInfo(respondeInfo);
+    };
+  }
+  useEffect(() => {
+    itemInfo();
+  }, [])
+
   return (
     <div className="w-full h-screen flex flex-col">
       <Header />
-      <div className="h-screen flex flex-col justify-center items-center">
-        <div className="w-full flex flex-col justify-center items-center text-center">
-            <h1 className="text-[29px] font-bold">Monitoring coins</h1>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vel ea cum dolorem deleniti molestiae quidem. Magnam ullam vero facere! Consequatur cum excepturi velit nulla reprehenderit odit ratione in aut? Veniam.</p>
+      <div className="w-full">
+        <div className="grid grid-rows-3 grid-cols-5">
         </div>
       </div>
     </div >
