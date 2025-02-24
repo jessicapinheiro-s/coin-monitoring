@@ -176,11 +176,11 @@ export default function PrincipaisCoinsPage() {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
       <Header/>
-      <div className="w-full text-center py-4">
+      <div className="w-full text-center py-4 ">
         <h1 className="text-[29px] font-bold">Rank Coins</h1>
       </div>
       
-      <div className="ag-theme-alpine" style={{ height: 600, width: "80%" }}>
+      <div className="ag-theme-alpine" style={{ height: 750, width: "80%" }}>
         <AgGridReact
           rowData={coinsInfo}
           columnDefs={columnDefs}
@@ -188,6 +188,7 @@ export default function PrincipaisCoinsPage() {
           rowHeight={50}
           paginationPageSize={50}
           paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
+          onGridReady={(params) => params.api.sizeColumnsToFit()}
           defaultColDef={{
             cellStyle: { display: "flex", alignItems: "center", justifyContent: "flex-start" }, // Alinha ao centro
           }}

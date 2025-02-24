@@ -13,11 +13,17 @@ export default function Header() {
     return (
         <>
             <div className="w-full flex flex-row items-center justify-center border-b rounded-l-xl rounded-r-xl">
-                <div className="w-[80%] flex flex-row items-center justify-end py-4">
-                    <div className="rounded-3xl bg-yellow-300 w-10 h-10 p-2" >
-                        <Menu onClick={(e) => openMenu(e)} />
+                <div className="w-[80%] flex flex-row items-center">
+                    <div className="w-[80%]">
+                        <h1 className="text-[29px] font-bold">Monitoring Coins</h1>
+                    </div>
+                    <div className="w-[20%] flex flex-row items-center justify-end py-4">
+                        <div className="rounded-3xl bg-yellow-300 w-10 h-10 p-2 flex items-center justify-center cursor-pointer">
+                            <Menu onClick={(e) => openMenu(e)} />
+                        </div>
                     </div>
                 </div>
+
             </div>
             {isOpen && (
                 <motion.div
@@ -27,8 +33,9 @@ export default function Header() {
                     transition={{ type: "spring", stiffness: 300, damping: 30 }} // Controle da animação
                     className="bg-gray-800 text-white fixed top-0 left-0 h-full w-64 p-4 z-10"
                 >
-                    <h2 className="text-2xl mb-4">Menu</h2>
+                    <h2 className="text-2xl mb-4">Coins Monitoring</h2>
                     <ul>
+                        <li className="py-4"><Link to="/">Principal Coins</Link></li>
                         <li className="py-4"><Link to="/All-Coins">All Coins</Link></li>
                         <li className="py-4"><Link to="/About">About</Link></li>
                     </ul>

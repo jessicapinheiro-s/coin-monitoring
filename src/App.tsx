@@ -6,11 +6,10 @@ import About from './pages/About'
 function App() {
   return (
     <>
-      <PrincipaisCoinsPage />
       <Routes>
         <Route path="/" element={<PrincipaisCoinsPage />} />
-        <Route path="/About" element={<AllCoins />} />
-        <Route path="/All-Coins" element={<About />} />
+        <Route path="/About" element={< About/>} />
+        <Route path="/All-Coins" element={<AllCoins />} />
       </Routes>
     </>
   )

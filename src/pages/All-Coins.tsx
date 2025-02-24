@@ -5,6 +5,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { useEffect, useState } from "react";
 import { getAllCoins } from "../api-coin-gecko/api-requests";
+import Header from "../components/Header";
 
 // Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -21,9 +22,9 @@ const alphabet = [
 ];
 
 const columnDefs: ColDef[] = [
-  { field: "id", headerName: "ID", sortable: true, width: 150 },
-  { field: "name", headerName: "Nome", sortable: true, filter: true },
-  { field: "symbol", headerName: "Symbol", sortable: true },
+  { field: "id", headerName: "ID", sortable: true },
+  { field: "name", headerName: "Name", sortable: true, filter: true},
+  { field: "symbol", headerName: "Symbol", sortable: true},
 ];
 
 const fiilterDontStartByNumber = (arr: propsAllCoins[]) => {
@@ -48,13 +49,18 @@ export default function AllCoins() {
 
 
   return (
-    <div className="w-full h-full flex flex-col justify-center items-center gap-10">
-      <div className="ag-theme-alpine" style={{ height: 400, width: "70%" }}>
+    <div className="w-full h-full flex flex-col justify-center items-center">
+      <Header/>
+      <div className="w-full text-center py-4">
+        <h1 className="text-[29px] font-bold">All Coins</h1>
+      </div>
+      <div className="ag-theme-alpine" style={{ height: 750, width: "80%" }}>
         <AgGridReact
           rowData={coinsInfo ? fiilterDontStartByNumber(coinsInfo?.slice(0, 2000)) : []}
           columnDefs={columnDefs}
           pagination={false}
           rowNumbers={false}
+          onGridReady={(params) => params.api.sizeColumnsToFit()}
         />
       </div>
     </div>

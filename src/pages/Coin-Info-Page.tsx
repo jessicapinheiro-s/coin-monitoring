@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 
-export default function About() {
+export default function CoinInfoPage() {
   return (
     <div className="w-full h-screen flex flex-col">
       <Header />
