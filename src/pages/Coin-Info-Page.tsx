@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { getCoinInfoById } from "../api-coin-gecko/api-requests";
 import { CoinInfoProps } from "../types/coinsTypes";
+import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
 
 
 
@@ -10,6 +12,11 @@ export default function CoinInfoPage() {
   const [paramsSearch] = useSearchParams();
   const idItem = paramsSearch.get("id");
   const [infoThisCoin, setThisCoinInfo] = useState<CoinInfoProps | undefined>();
+
+  Chart.register(...registerables);
+
+  const defineColorChangePricePercentage = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? 'text-[#ef4444]' : 'text-[#10B981]';
+  const defineColorChangePricePercentageGra = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? '#ef4444' : '#10B981';
 
   const itemInfo = async () => {
     if (idItem) {
@@ -20,7 +27,20 @@ export default function CoinInfoPage() {
   useEffect(() => {
     itemInfo();
   }, [])
- 
+
+  const dataLabels = (lastHoursQtd: number) => {
+    const nowDate = new Date();
+    let count: number = 0;
+    const arrHoursInfo: string[] = [];
+    do {
+      const hours: string = (nowDate.getHours() - count).toString().length === 1 ? `0${nowDate.getHours() - count}:00` : `${nowDate.getHours() - count}:00`;
+      arrHoursInfo.push(hours);
+      count += 1;
+    } while (count !== lastHoursQtd);
+
+    return arrHoursInfo.reverse();
+  };
+
   const formatToCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -30,7 +50,37 @@ export default function CoinInfoPage() {
     }).format(value);
   };
 
-  const defineColorChangePricePercentage = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? 'text-red-500' : 'text-green-500';
+  const data = {
+    labels: dataLabels(8),
+    datasets: [
+      {
+        label: 'Preço da moeda em questão',
+        data: [40200, 40450, 40100, 40500, 40700, 40300, 40850, 40600],
+        borderColor: defineColorChangePricePercentageGra, // Verde fluorescente (estilo cripto)
+        borderWidth: 2,
+        tension: 0.4, // Deixa a linha mais suave
+        pointRadius: 0, // Remove os pontos dos dados
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { display: false }, // Remove a legenda
+    },
+    scales: {
+      x: {
+        grid: { display: false }, // Remove linhas verticais
+        ticks: { color: '#323232' }, // Cor do texto no eixo X
+      },
+      y: {
+        grid: { color: '#e5e7eb' }, // Linhas horizontais mais sutis
+        ticks: { color: '#323232' }, // Cor do texto no eixo Y
+      },
+    },
+  };
+
   return (
     <div className="w-full h-screen flex flex-col">
       <Header />
@@ -120,7 +170,9 @@ export default function CoinInfoPage() {
 
             {/* 🔥 Última linha ocupando 2 colunas no mobile */}
             <div className="p-4 rounded-xl border col-span-2 md:col-span-3 lg:col-span-5">
-              Grafico
+              <div className="w-full max-w-3xl p-4 bg-white rounded-lg border">
+                <Line data={data} options={options} />
+              </div>
             </div>
           </div>
         </div>
