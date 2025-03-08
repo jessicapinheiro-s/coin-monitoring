@@ -106,12 +106,12 @@ export default function CoinInfoPage() {
             </div>
 
             <div className="p-4 rounded-xl border col-span-1 row-span-1 lg:col-span-3 md:col-span-2 flex flex-col items-center justify-start lg:items-center lg:justify-center">
-              <div className="h-full overflow-hidden" dangerouslySetInnerHTML={{ __html: infoThisCoin?.description?.en ?? '' }} />
+              <div className="h-full overflow-y-scroll break-words" dangerouslySetInnerHTML={{ __html: infoThisCoin?.description?.en ?? '' }} />
             </div>
 
             {/* 6º Item */}
-            <div className="p-4 rounded-xl border col-span-1 md:col-span-1 flex flex-col items-start justify-start lg:items-center lg:col-span-2 lg:items-center lg:justify-center">
-              <ul className="list-item h-full overflow-hidden">
+            <div className="p-4 rounded-xl border col-span-1 md:col-span-1 flex flex-col items-start justify-start  lg:col-span-2 lg:items-center lg:justify-center">
+              <ul className="w-full list-item h-full overflow-y-scroll">
                 {(infoThisCoin?.categories ?? []).map((category, index) => (
                   <li key={index}>{category}</li>
                 ))}
