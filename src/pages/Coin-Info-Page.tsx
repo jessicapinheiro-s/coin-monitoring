@@ -1,17 +1,22 @@
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { getCoinInfoById } from "../api-coin-gecko/api-requests";
+import { getCoinInfoById, getLastDaysPrice } from "../api-coin-gecko/api-requests";
 import { CoinInfoProps } from "../types/coinsTypes";
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 
-
+interface propsPrice {
+  data: string; 
+  price: string;
+}
 
 export default function CoinInfoPage() {
   const [paramsSearch] = useSearchParams();
-  const idItem = paramsSearch.get("id");
   const [infoThisCoin, setThisCoinInfo] = useState<CoinInfoProps | undefined>();
+  const [infoCoinLastDays, setInfoCoinLastDays] = useState<propsPrice[]>();
+  const idItem = paramsSearch.get("id");
+
 
   Chart.register(...registerables);
 
@@ -24,9 +29,29 @@ export default function CoinInfoPage() {
       setThisCoinInfo(respondeInfo);
     };
   }
+
+  const itemLastDaysPriceInfo = async () => {
+    if (idItem) {
+      const responseInfo  = await getLastDaysPrice(idItem, 1, 'usd');
+      const prices:number[][] = responseInfo.prices;
+      const coinsresponseInfoMaped = prices.map(arr => {
+        const dataHoursFormated = new Date(arr[0]).toLocaleTimeString('pt-br', { hour: '2-digit', minute: '2-digit' });
+        const priceFormated = formatToCurrency(arr[1]);
+        return {
+          data: dataHoursFormated,
+          price: priceFormated
+        }
+      })
+      setInfoCoinLastDays(coinsresponseInfoMaped);
+    };
+  }
+
   useEffect(() => {
     itemInfo();
+    itemLastDaysPriceInfo();
   }, [])
+
+  console.log(infoCoinLastDays);
 
   const dataLabels = (lastHoursQtd: number) => {
     const nowDate = new Date();
@@ -170,7 +195,7 @@ export default function CoinInfoPage() {
 
             {/* 🔥 Última linha ocupando 2 colunas no mobile */}
             <div className="p-4 rounded-xl border col-span-2 md:col-span-3 lg:col-span-5">
-              <div className="w-full max-w-3xl p-4 bg-white rounded-lg border">
+              <div className="w-full p-4 bg-white rounded-lg border">
                 <Line data={data} options={options} />
               </div>
             </div>
