@@ -20,8 +20,17 @@ export default function CoinInfoPage() {
   useEffect(() => {
     itemInfo();
   }, [])
-  console.log(infoThisCoin)
+ 
+  const formatToCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
+  };
 
+  const defineColorChangePricePercentage = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? 'text-red-500' : 'text-green-500';
   return (
     <div className="w-full h-screen flex flex-col">
       <Header />
@@ -29,15 +38,18 @@ export default function CoinInfoPage() {
         <div className="lg:w-[80%] sm:w-[100%]">
           <div className="
               grid 
-              sm:grid-cols-2  /* 📌 Garante 2 colunas no mobile */
+              sm:grid-cols-2  
               md:grid-cols-3 
               lg:grid-cols-5 
               gap-4 
               border 
               p-4
+              grid-rows-[10%_10%_10%_30%_1fr] 
+              md:grid-rows-[20%_20%_25%_1fr]
+              lg:grid-rows-[30%_30%_1fr]
             ">
             {/* 1º Item */}
-            <div className="p-4 rounded-xl flex flex-col items-center justify-center border col-span-2 lg:col-span-1">
+            <div className="p-4 rounded-xl flex flex-col items-center justify-center border col-span-2 lg:col-span-1 lg:items-center lg:justify-center">
               {infoThisCoin?.image?.small && (
                 <div>
                   <img className="w-[80px]" src={infoThisCoin.image.large} alt={infoThisCoin?.name || 'Coin Image'} />
@@ -47,46 +59,59 @@ export default function CoinInfoPage() {
             </div>
 
             {/* 3º Item */}
-            <div className="p-4 rounded-xl border flex flex-col items-start justify-center col-span-1">
+            <div className="p-4 rounded-xl border flex flex-col items-start justify-center col-span-1 lg:items-center lg:justify-center">
               <ul>
-                <li className="text-[29px] font-bold">{`$${(infoThisCoin?.market_data?.current_price?.usd) ?? 'N/A'}`}</li>
+                <li className="text-[29px] font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.current_price?.usd ?? 0)}`}</li>
               </ul>
             </div>
 
             {/* 2º Item */}
-            <div className="p-4 rounded-xl border flex flex-col items-start justify-start col-span-1">
+            <div className="p-4 rounded-xl border flex flex-col items-start justify-start col-span-1 lg:items-center lg:justify-center">
               <ul>
-                <li>Highest price (24h): {`$${infoThisCoin?.market_data?.high_24h?.usd ?? 'N/A'}`}</li>
-                <li>Lowest price (24h): {`$${infoThisCoin?.market_data?.low_24h?.usd ?? 'N/A}'}`}</li>
+                <li>
+                  <p className="text-[12px]">Highest price (24h):</p>
+                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.high_24h?.usd ?? 0)}`}</p>
+                </li>
+                <li>
+                  <p className="text-[12px]">Lowest price (24h):</p>
+                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.low_24h?.usd ?? 0)}`}</p></li>
               </ul>
             </div>
 
 
 
             {/* 4º Item */}
-            <div className="p-4 rounded-xl border flex items-start justify-start">
+            <div className="p-4 rounded-xl border flex items-start justify-start lg:items-center lg:justify-center">
               <ul>
-                <li>Change (24h): {infoThisCoin?.market_data?.price_change_percentage_24h ?? 'N/A'}%</li>
-                <li>Market Capitalization: {infoThisCoin?.market_data?.market_cap?.usd ?? 'N/A'} USD</li>
+                <li>
+                  <p className="text-[12px]">Change (24h):</p>
+                  <p className={`${defineColorChangePricePercentage} font-bold`}>{`${formatToCurrency(infoThisCoin?.market_data?.price_change_percentage_24h ?? 0)}`}%</p></li>
+                <li>
+                  <p className="text-[12px]">Market Capitalization:</p>
+                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.market_cap?.usd ?? 0)}`}</p> </li>
               </ul>
 
             </div>
 
             {/* 5º Item */}
-            <div className="p-4 rounded-xl border flex flex-col items-start justify-start">
+            <div className="p-4 rounded-xl border flex flex-col items-start justify-start lg:items-center lg:justify-center">
               <ul>
-                <li>Highest last price: {infoThisCoin?.market_data.ath.usd}</li>
-                <li>Lowest last price: {infoThisCoin?.market_data.atl.usd}</li>
+                <li>
+                  <p className="text-[12px]">Highest last price:</p>
+                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data.ath.usd ?? 0)}`}</p></li>
+                <li>
+                  <p className="text-[12px]">Lowest last price:</p>
+                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data.atl.usd ?? 0)}`}</p></li>
               </ul>
             </div>
 
-            <div className="p-4 rounded-xl border col-span-1 row-span-1 lg:col-span-3 md:col-span-2 flex flex-col items-center justify-start">
+            <div className="p-4 rounded-xl border col-span-1 row-span-1 lg:col-span-3 md:col-span-2 flex flex-col items-center justify-start lg:items-center lg:justify-center">
               <div className="h-full overflow-hidden" dangerouslySetInnerHTML={{ __html: infoThisCoin?.description?.en ?? '' }} />
             </div>
 
             {/* 6º Item */}
-            <div className="p-4 rounded-xl border col-span-1 md:col-span-1 flex flex-col items-start justify-start lg:items-center lg:col-span-2">
-              <ul>
+            <div className="p-4 rounded-xl border col-span-1 md:col-span-1 flex flex-col items-start justify-start lg:items-center lg:col-span-2 lg:items-center lg:justify-center">
+              <ul className="list-item h-full overflow-hidden">
                 {(infoThisCoin?.categories ?? []).map((category, index) => (
                   <li key={index}>{category}</li>
                 ))}
