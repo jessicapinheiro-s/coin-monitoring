@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { getPopularCoins } from "../api-coin-gecko/api-requests";
 import Header from "../components/Header";
 import { Info } from "lucide-react";
-import { div } from "motion/react-client";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -52,7 +51,7 @@ export default function PrincipaisCoinsPage() {
     {
       field: "image",
       headerName: "info",
-      cellRenderer: (params: any) => (
+      cellRenderer: () => (
         <div className="h-full w-full flex items-center justify-center">
           <Info size={20} />
         </div>

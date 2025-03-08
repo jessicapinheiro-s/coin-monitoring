@@ -121,7 +121,7 @@ export default function CoinInfoPage() {
               p-4
               grid-rows-[10%_10%_10%_30%_1fr] 
               md:grid-rows-[20%_20%_25%_1fr]
-              lg:grid-rows-[30%_30%_1fr]
+              lg:grid-rows-[15%_25%_1fr]
             ">
             {/* 1º Item */}
             <div className="p-4 rounded-xl flex flex-col items-center justify-center border col-span-2 lg:col-span-1 lg:items-center lg:justify-center">
