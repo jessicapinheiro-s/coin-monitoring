@@ -7,7 +7,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 
 interface propsPrice {
-  data: string; 
+  data: string;
   price: string;
 }
 
@@ -16,7 +16,6 @@ export default function CoinInfoPage() {
   const [infoThisCoin, setThisCoinInfo] = useState<CoinInfoProps | undefined>();
   const [infoCoinLastDays, setInfoCoinLastDays] = useState<propsPrice[]>();
   const idItem = paramsSearch.get("id");
-
 
   Chart.register(...registerables);
 
@@ -32,8 +31,8 @@ export default function CoinInfoPage() {
 
   const itemLastDaysPriceInfo = async () => {
     if (idItem) {
-      const responseInfo  = await getLastDaysPrice(idItem, 1, 'usd');
-      const prices:number[][] = responseInfo.prices;
+      const responseInfo = await getLastDaysPrice(idItem, 1, 'usd');
+      const prices: number[][] = responseInfo.prices;
       const coinsresponseInfoMaped = prices.map(arr => {
         const dataHoursFormated = new Date(arr[0]).toLocaleTimeString('pt-br', { hour: '2-digit', minute: '2-digit' });
         const priceFormated = formatToCurrency(arr[1]);
@@ -145,11 +144,11 @@ export default function CoinInfoPage() {
               <ul>
                 <li>
                   <p className="text-[12px]">Highest price (24h):</p>
-                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.high_24h?.usd ?? 0)}`}</p>
+                  <p className="font-bold text-[20px]">{`${formatToCurrency(infoThisCoin?.market_data?.high_24h?.usd ?? 0)}`}</p>
                 </li>
                 <li>
                   <p className="text-[12px]">Lowest price (24h):</p>
-                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.low_24h?.usd ?? 0)}`}</p></li>
+                  <p className="font-bold text-[20px]">{`${formatToCurrency(infoThisCoin?.market_data?.low_24h?.usd ?? 0)}`}</p></li>
               </ul>
             </div>
 
@@ -160,10 +159,10 @@ export default function CoinInfoPage() {
               <ul>
                 <li>
                   <p className="text-[12px]">Change (24h):</p>
-                  <p className={`${defineColorChangePricePercentage} font-bold`}>{`${formatToCurrency(infoThisCoin?.market_data?.price_change_percentage_24h ?? 0)}`}%</p></li>
+                  <p className={`${defineColorChangePricePercentage} font-bold text-[20px]`}>{`${formatToCurrency(infoThisCoin?.market_data?.price_change_percentage_24h ?? 0)}`}%</p></li>
                 <li>
                   <p className="text-[12px]">Market Capitalization:</p>
-                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data?.market_cap?.usd ?? 0)}`}</p> </li>
+                  <p className="font-bold text-[20px]">{`${formatToCurrency(infoThisCoin?.market_data?.market_cap?.usd ?? 0).slice(0, 14)}`}</p> </li>
               </ul>
 
             </div>
@@ -173,22 +172,32 @@ export default function CoinInfoPage() {
               <ul>
                 <li>
                   <p className="text-[12px]">Highest last price:</p>
-                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data.ath.usd ?? 0)}`}</p></li>
+                  <p className="font-bold text-[20px]">{`${formatToCurrency(infoThisCoin?.market_data.ath.usd ?? 0)}`}</p></li>
                 <li>
                   <p className="text-[12px]">Lowest last price:</p>
-                  <p className="font-bold">{`${formatToCurrency(infoThisCoin?.market_data.atl.usd ?? 0)}`}</p></li>
+                  <p className="font-bold text-[20px]">{`${formatToCurrency(infoThisCoin?.market_data.atl.usd ?? 0)}`}</p></li>
               </ul>
             </div>
 
-            <div className="p-4 rounded-xl border col-span-1 row-span-1 lg:col-span-3 md:col-span-2 flex flex-col items-center justify-start lg:items-center lg:justify-center">
+            <div className=" gap-4 p-4 rounded-xl border col-span-1 row-span-1 lg:col-span-3 md:col-span-2 flex flex-col items-start justify-start ">
+              <div>
+                <h2 className="font-bold text-[20px]">Description</h2>
+              </div>
               <div className="h-full overflow-y-scroll break-words" dangerouslySetInnerHTML={{ __html: infoThisCoin?.description?.en ?? '' }} />
             </div>
 
             {/* 6º Item */}
-            <div className="p-4 rounded-xl border col-span-1 md:col-span-1 flex flex-col items-start justify-start  lg:col-span-2 lg:items-center lg:justify-center">
-              <ul className="w-full list-item h-full overflow-y-scroll">
+            <div className="gap-4 p-4 rounded-xl border col-span-1 md:col-span-1 flex flex-col items-start justify-start  lg:col-span-2">
+              <div>
+                <h2 className="font-bold text-[20px]">Categories</h2>
+              </div>
+              <ul className="w-full h-full overflow-y-scroll flex flex-col items-start justify-start gap-2">
                 {(infoThisCoin?.categories ?? []).map((category, index) => (
-                  <li key={index}>{category}</li>
+                  <li
+                    className="py-1 px-4 w-auto rounded-xl bg-yellow-300"
+                    key={index}>
+                    {category}
+                  </li>
                 ))}
               </ul>
             </div>

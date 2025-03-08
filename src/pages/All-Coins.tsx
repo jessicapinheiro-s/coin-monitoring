@@ -19,7 +19,7 @@ export interface propsAllCoins {
 
 export default function AllCoins() {
   const [coinsInfo, setCoinsInfo] = useState<propsAllCoins[]>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const getiInfoCoins = async () => {
     try {
       const response = await getAllCoins();
