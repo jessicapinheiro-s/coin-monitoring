@@ -187,7 +187,6 @@ export default function PrincipaisCoinsPage() {
 
   const getCoinById = async (event: any) =>{
     const idCoin: string = event.data.id;
-    console.log(idCoin)
     navigate(`/Coin-Info-Page/?id=${idCoin}`);
   }
 

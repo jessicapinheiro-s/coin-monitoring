@@ -5,6 +5,7 @@ import { getCoinInfoById, getLastDaysPrice } from "../api-coin-gecko/api-request
 import { CoinInfoProps } from "../types/coinsTypes";
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
+import React from "react";
 
 interface propsPrice {
   data: string;
@@ -50,8 +51,6 @@ export default function CoinInfoPage() {
     itemLastDaysPriceInfo();
   }, [])
 
-  console.log(infoCoinLastDays);
-
   const dataLabels = (lastHoursQtd: number) => {
     const nowDate = new Date();
     let count: number = 0;
@@ -74,12 +73,24 @@ export default function CoinInfoPage() {
     }).format(value);
   };
 
+  const relationDatHour = React.useMemo(() => {
+    console.log(dataLabels(8).map(itemInfo => {
+      return infoCoinLastDays?.filter(item => item.data === itemInfo);
+    }))
+    return dataLabels(8).map(itemInfo => {
+      return infoCoinLastDays?.filter(item => item.data === itemInfo);
+    });
+
+    
+  }, [infoCoinLastDays]);
+
+
   const data = {
     labels: dataLabels(8),
     datasets: [
       {
         label: 'Preço da moeda em questão',
-        data: [40200, 40450, 40100, 40500, 40700, 40300, 40850, 40600],
+        data: relationDatHour.map(item => item?.[0]?.price ?? 0),
         borderColor: defineColorChangePricePercentageGra, // Verde fluorescente (estilo cripto)
         borderWidth: 2,
         tension: 0.4, // Deixa a linha mais suave
