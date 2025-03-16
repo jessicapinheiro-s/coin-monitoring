@@ -6,10 +6,10 @@ import { CoinInfoProps } from "../types/coinsTypes";
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import React from "react";
-
 interface propsPrice {
   data: string;
   price: string;
+  day: string;
 }
 
 export default function CoinInfoPage() {
@@ -32,16 +32,29 @@ export default function CoinInfoPage() {
 
   const itemLastDaysPriceInfo = async () => {
     if (idItem) {
-      const responseInfo = await getLastDaysPrice(idItem, 1, 'usd');
+      const responseInfo = await getLastDaysPrice(idItem, 2, 'usd');
       const prices: number[][] = responseInfo.prices;
+
       const coinsresponseInfoMaped = prices.map(arr => {
         const dataHoursFormated = new Date(arr[0]).toLocaleTimeString('pt-br', { hour: '2-digit', minute: '2-digit' });
         const priceFormated = formatToCurrency(arr[1]);
+        const dayData = new Date(arr[0]).toLocaleDateString('pt-br', {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit'
+        })
+        /*console.log({
+          "Data": dataHoursFormated,
+          "Arr": arr,
+          "Price": priceFormated
+        })*/
         return {
           data: dataHoursFormated,
-          price: priceFormated
+          price: priceFormated,
+          day: dayData
         }
       })
+
       setInfoCoinLastDays(coinsresponseInfoMaped);
     };
   }
@@ -73,15 +86,16 @@ export default function CoinInfoPage() {
     }).format(value);
   };
 
-  const relationDatHour = React.useMemo(() => {
-    console.log(dataLabels(8).map(itemInfo => {
-      return infoCoinLastDays?.filter(item => item.data === itemInfo);
-    }))
-    return dataLabels(8).map(itemInfo => {
-      return infoCoinLastDays?.filter(item => item.data === itemInfo);
-    });
+  const relationDatHour: propsPrice[] = React.useMemo(() => {
+    const todayData = infoCoinLastDays?.filter(item => item.day === new Date().toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: '2-digit' })) ?? [];
+    let itemsFiltered: propsPrice[] = [];
 
-    
+    dataLabels(8).map(itemInfo => {
+      const filterdData = todayData.filter(item => ((item.data).split(':')[0]).toString() == ((itemInfo).split(':')[0]).toString());
+      itemsFiltered = itemsFiltered.concat(filterdData);
+    });
+    return itemsFiltered
+
   }, [infoCoinLastDays]);
 
 
@@ -90,13 +104,15 @@ export default function CoinInfoPage() {
     datasets: [
       {
         label: 'Preço da moeda em questão',
-        data: relationDatHour.map(item => item?.[0]?.price ?? 0),
-        borderColor: defineColorChangePricePercentageGra, // Verde fluorescente (estilo cripto)
+        data: relationDatHour.map(item => parseInt((item?.price).replace('$', '').replace('.', '').replace(',', ''))),
+        
+        borderColor: defineColorChangePricePercentageGra,
         borderWidth: 2,
         tension: 0.4, // Deixa a linha mais suave
         pointRadius: 0, // Remove os pontos dos dados
-      },
-    ],
+
+      }
+    ]
   };
 
   const options = {
@@ -111,7 +127,13 @@ export default function CoinInfoPage() {
       },
       y: {
         grid: { color: '#e5e7eb' }, // Linhas horizontais mais sutis
-        ticks: { color: '#323232' }, // Cor do texto no eixo Y
+        ticks: { 
+          color: '#323232',
+          callback: function(value:any) {
+            // Formatação do valor dos ticks
+            return value;
+          },
+        }, // Cor do texto no eixo Y
       },
     },
   };
@@ -216,7 +238,11 @@ export default function CoinInfoPage() {
             {/* 🔥 Última linha ocupando 2 colunas no mobile */}
             <div className="p-4 rounded-xl border col-span-2 md:col-span-3 lg:col-span-5">
               <div className="w-full p-4 bg-white rounded-lg border">
-                <Line data={data} options={options} />
+                {relationDatHour.length > 0 ? (
+                  <Line data={data} options={options} />
+                ) : (
+                  <p>Carregando dados...</p>
+                )}
               </div>
             </div>
           </div>
