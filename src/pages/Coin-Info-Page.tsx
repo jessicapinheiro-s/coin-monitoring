@@ -43,11 +43,6 @@ export default function CoinInfoPage() {
           month: '2-digit',
           year: '2-digit'
         })
-        /*console.log({
-          "Data": dataHoursFormated,
-          "Arr": arr,
-          "Price": priceFormated
-        })*/
         return {
           data: dataHoursFormated,
           price: priceFormated,
@@ -118,22 +113,21 @@ export default function CoinInfoPage() {
   const options = {
     responsive: true,
     plugins: {
-      legend: { display: false }, // Remove a legenda
+      legend: { display: false }, 
     },
     scales: {
       x: {
-        grid: { display: false }, // Remove linhas verticais
-        ticks: { color: '#323232' }, // Cor do texto no eixo X
+        grid: { display: false }, 
+        ticks: { color: '#323232' }, 
       },
       y: {
-        grid: { color: '#e5e7eb' }, // Linhas horizontais mais sutis
+        grid: { color: '#e5e7eb' }, 
         ticks: { 
           color: '#323232',
           callback: function(value:any) {
-            // Formatação do valor dos ticks
             return value;
           },
-        }, // Cor do texto no eixo Y
+        },
       },
     },
   };
