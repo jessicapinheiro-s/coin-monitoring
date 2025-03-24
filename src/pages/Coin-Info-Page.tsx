@@ -6,6 +6,8 @@ import { CoinInfoProps } from "../types/coinsTypes";
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import React from "react";
+import { CirclePlus, Heart } from "lucide-react";
+import useFavoriteCoinsContext from "../shared/favCoins";
 interface propsPrice {
   data: string;
   price: string;
@@ -17,8 +19,9 @@ export default function CoinInfoPage() {
   const [infoThisCoin, setThisCoinInfo] = useState<CoinInfoProps | undefined>();
   const [infoCoinLastDays, setInfoCoinLastDays] = useState<propsPrice[]>();
   const idItem = paramsSearch.get("id");
-
+  const [isFav, setIsFav] = useState(false);
   Chart.register(...registerables);
+  const { favoriteCoins, setFavoriteCoinsItems } = useFavoriteCoinsContext();
 
   const defineColorChangePricePercentage = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? 'text-[#ef4444]' : 'text-[#10B981]';
   const defineColorChangePricePercentageGra = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? '#ef4444' : '#10B981';
@@ -100,7 +103,7 @@ export default function CoinInfoPage() {
       {
         label: 'Preço da moeda em questão',
         data: relationDatHour.map(item => parseInt((item?.price).replace('$', '').replace('.', '').replace(',', ''))),
-        
+
         borderColor: defineColorChangePricePercentageGra,
         borderWidth: 2,
         tension: 0.4, // Deixa a linha mais suave
@@ -113,24 +116,34 @@ export default function CoinInfoPage() {
   const options = {
     responsive: true,
     plugins: {
-      legend: { display: false }, 
+      legend: { display: false },
     },
     scales: {
       x: {
-        grid: { display: false }, 
-        ticks: { color: '#323232' }, 
+        grid: { display: false },
+        ticks: { color: '#323232' },
       },
       y: {
-        grid: { color: '#e5e7eb' }, 
-        ticks: { 
+        grid: { color: '#e5e7eb' },
+        ticks: {
           color: '#323232',
-          callback: function(value:any) {
+          callback: function (value: any) {
             return value;
           },
         },
       },
     },
   };
+
+  const handleFav = () => {
+    isFav ? setIsFav(false) : setIsFav(true);
+    if(!favoriteCoins.includes(idItem)){
+      setFavoriteCoinsItems(() => [...favoriteCoins, idItem]);
+    }else{
+      const withoutFav = favoriteCoins.filter((item: string) => item !== idItem);
+      setFavoriteCoinsItems(withoutFav);
+    }
+  }
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -150,7 +163,7 @@ export default function CoinInfoPage() {
               lg:grid-rows-[15%_25%_1fr]
             ">
             {/* 1º Item */}
-            <div className="p-4 rounded-xl flex flex-col items-center justify-center border col-span-2 lg:col-span-1 lg:items-center lg:justify-center">
+            <div className="p-4 rounded-xl flex flex-col items-center justify-center border col-span-1 lg:col-span-1 lg:items-center lg:justify-center">
               {infoThisCoin?.image?.small && (
                 <div>
                   <img className="w-[80px]" src={infoThisCoin.image.large} alt={infoThisCoin?.name || 'Coin Image'} />
@@ -205,7 +218,6 @@ export default function CoinInfoPage() {
                   <p className="font-bold text-[20px]">{`${formatToCurrency(infoThisCoin?.market_data.atl.usd ?? 0)}`}</p></li>
               </ul>
             </div>
-
             <div className=" gap-4 p-4 rounded-xl border col-span-1 row-span-1 lg:col-span-3 md:col-span-2 flex flex-col items-start justify-start ">
               <div>
                 <h2 className="font-bold text-[20px]">Description</h2>
@@ -240,6 +252,21 @@ export default function CoinInfoPage() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="w-14 p-4 rounded-full flex flex-col items-start justify-start lg:items-center lg:justify-center absolute bottom-3 right-3 bg-yellow-300">
+        <div>
+          {
+            isFav && (
+              <Heart size={25} onClick={handleFav} />
+            )
+          }
+          {
+            !isFav && (
+              <CirclePlus size={25} onClick={handleFav} />
+            )
+          }
         </div>
       </div>
     </div >
