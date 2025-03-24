@@ -13,18 +13,18 @@ export default function FavoriteCoins() {
     const [coinsInfo, setCoinsInfo] = useState<PrincipalCoinsProps[]>();
     const { favoriteCoins } = useFavoriteCoinsContext();
 
-
     const getCoinById = async (event: any) => {
         const idCoin: string = event.data.id;
         navigate(`/Coin-Info-Page/?id=${idCoin}`);
     }
 
     const getiInfoCoins = () => {
-        Promise.all(favoriteCoins.map( async (coinId: string) => {
-            const responseInfoCoin = await getCoinInfoById(coinId);
-            setCoinsInfo(responseInfoCoin);
-        }));
-        
+        if (favoriteCoins) {
+            Promise.all(favoriteCoins.map(async (coinId: string) => {
+                const responseInfoCoin = await getCoinInfoById(coinId);
+                setCoinsInfo(responseInfoCoin);
+            }));
+        }
     }
 
     useEffect(() => {
@@ -91,25 +91,42 @@ export default function FavoriteCoins() {
         }
     ];
 
-    
+
     return (
-        <div className="w-full h-screen flex flex-col gap-4">
+        <div className="w-full h-screen flex flex-col items-center gap-4">
             <Header />
             <div className="ag-theme-alpine" style={{ height: 750, width: "80%" }}>
-                <AgGridReact
-                    rowData={coinsInfo}
-                    columnDefs={columnDefs}
-                    pagination={true}
-                    rowHeight={50}
-                    paginationPageSize={50}
-                    paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
-                    onGridReady={(params) => params.api.sizeColumnsToFit()}
-                    defaultColDef={{
-                        cellStyle: { display: "flex", alignItems: "center", justifyContent: "flex-start" }, // Alinha ao centro
-                    }}
-                />
+                <div className="w-full h-full">
+                    {
+                        coinsInfo && (
+                            <AgGridReact
+                                rowData={coinsInfo}
+                                columnDefs={columnDefs}
+                                pagination={true}
+                                rowHeight={50}
+                                paginationPageSize={50}
+                                paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
+                                onGridReady={(params) => params.api.sizeColumnsToFit()}
+                                defaultColDef={{
+                                    cellStyle: { display: "flex", alignItems: "center", justifyContent: "flex-start" }, // Alinha ao centro
+                                }}
+                            />
+                        )
+                    }
+
+
+                    {
+
+                        !coinsInfo && (
+                            <div className="w-full h-full flex flex-col justify-center items-center text-center">
+                                <span className="text-[30px] ">🥺</span>
+                                <h2 className="text-[20px] font-bold">There is no favorite Coins selected</h2>
+                            </div>
+                        )
+                    }
+                </div>
             </div>
-        </div >
+        </div>
     )
 }
 
