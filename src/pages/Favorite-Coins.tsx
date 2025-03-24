@@ -34,7 +34,7 @@ export default function FavoriteCoins() {
     const columnDefs: ColDef[] = [
         {
             field: "image",
-            headerName: "info",
+            headerName: "",
             cellRenderer: () => (
                 <div className="h-full w-full flex items-center justify-center">
                     <Info size={20} />
@@ -45,7 +45,7 @@ export default function FavoriteCoins() {
         },
         {
             field: "image",
-            headerName: "Moeda",
+            headerName: "Coin",
             cellRenderer: (params: any) => (
                 <img src={params.value} width="30" height="30" />
             ),
@@ -53,14 +53,14 @@ export default function FavoriteCoins() {
         },
         {
             field: "name",
-            headerName: "Nome",
+            headerName: "Name",
             sortable: true,
             filter: true,
             width: 180
         },
         {
             field: "current_price",
-            headerName: "Preço Atual (USD)",
+            headerName: "Current Price",
             sortable: true,
             filter: true,
             valueFormatter: (params) => `$${params.value.toFixed(2)}`,
@@ -68,7 +68,7 @@ export default function FavoriteCoins() {
         },
         {
             field: "price_change_percentage_24h",
-            headerName: "Variação 24h (%)",
+            headerName: "Price Change 24h (%)",
             sortable: true,
             filter: true,
             valueFormatter: (params) => `${params.value.toFixed(2)}%`,
@@ -76,7 +76,7 @@ export default function FavoriteCoins() {
         },
         {
             field: "last_updated",
-            headerName: "Última Atualização",
+            headerName: "Last Updated",
             sortable: true,
             width: 200,
             valueFormatter: (params: any) =>

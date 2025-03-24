@@ -50,7 +50,7 @@ export default function PrincipaisCoinsPage() {
   const columnDefs: ColDef[] = [
     {
       field: "image",
-      headerName: "info",
+      headerName: "",
       cellRenderer: () => (
         <div className="h-full w-full flex items-center justify-center">
           <Info size={20} />
@@ -61,7 +61,7 @@ export default function PrincipaisCoinsPage() {
     },
     {
       field: "image",
-      headerName: "Moeda",
+      headerName: "Coin",
       cellRenderer: (params: any) => (
         <img src={params.value} width="30" height="30" />
       ),
@@ -69,14 +69,14 @@ export default function PrincipaisCoinsPage() {
     },
     {
       field: "name",
-      headerName: "Nome",
+      headerName: "Name",
       sortable: true,
       filter: true,
       width: 180
     },
     {
       field: "current_price",
-      headerName: "Preço Atual (USD)",
+      headerName: "Current Price",
       sortable: true,
       filter: true,
       valueFormatter: (params) => `$${params.value.toFixed(2)}`,
@@ -84,7 +84,7 @@ export default function PrincipaisCoinsPage() {
     },
     {
       field: "symbol",
-      headerName: "Símbolo",
+      headerName: "Symbol",
       sortable: true,
       width: 120
     },
@@ -108,7 +108,7 @@ export default function PrincipaisCoinsPage() {
 
     {
       field: "total_volume",
-      headerName: "Volume Total",
+      headerName: "Total Volume",
       sortable: true,
       filter: true,
       valueFormatter: (params) => `$${params.value.toLocaleString()}`,
@@ -117,7 +117,7 @@ export default function PrincipaisCoinsPage() {
 
     {
       field: "high_24h",
-      headerName: "Alta 24h",
+      headerName: "Highest (24h)",
       sortable: true,
       filter: true,
       valueFormatter: (params) => `$${params.value.toFixed(2)}`,
@@ -126,7 +126,7 @@ export default function PrincipaisCoinsPage() {
 
     {
       field: "low_24h",
-      headerName: "Baixa 24h",
+      headerName: "Lowest (24h)",
       sortable: true,
       filter: true,
       valueFormatter: (params) => `$${params.value.toFixed(2)}`,
@@ -135,7 +135,7 @@ export default function PrincipaisCoinsPage() {
 
     {
       field: "price_change_percentage_24h",
-      headerName: "Variação 24h (%)",
+      headerName: "Price change 24h(%)",
       sortable: true,
       filter: true,
       valueFormatter: (params) => `${params.value.toFixed(2)}%`,
@@ -153,7 +153,7 @@ export default function PrincipaisCoinsPage() {
 
     {
       field: "ath_change_percentage",
-      headerName: "ATH % Mudança",
+      headerName: "ATH % Change",
       sortable: true,
       filter: true,
       valueFormatter: (params) => `${params.value.toFixed(2)}%`,
@@ -162,7 +162,7 @@ export default function PrincipaisCoinsPage() {
 
     {
       field: "last_updated",
-      headerName: "Última Atualização",
+      headerName: "Last Updated",
       sortable: true,
       width: 200,
       valueFormatter: (params: any) =>

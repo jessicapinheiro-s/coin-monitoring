@@ -31,7 +31,7 @@ export default function AllCoins() {
   const columnDefs: ColDef[] = [
     {
       field: "image",
-      headerName: "info",
+      headerName: "",
       cellRenderer: () => (
         <div className="h-full w-full flex items-center justify-center">
           <Info size={20} />
