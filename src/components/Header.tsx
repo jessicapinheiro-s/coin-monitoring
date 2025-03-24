@@ -42,6 +42,7 @@ export default function Header() {
                     <ul>
                         <li className="py-2 px-4 hover:bg-yellow-300 rounded-xl hover:text-black" ><Link to="/">Principal Coins</Link></li>
                         <li className="py-2 px-4 hover:bg-yellow-300 rounded-xl hover:text-black"><Link to="/All-Coins">All Coins</Link></li>
+                        <li className="py-2 px-4 hover:bg-yellow-300 rounded-xl hover:text-black"><Link to="/Favorite-Coins">Favorite Coins</Link></li>
                         <li className="py-2 px-4 hover:bg-yellow-300 rounded-xl hover:text-black"><Link to="/About">About</Link></li>
                     </ul>
                 </motion.div>
