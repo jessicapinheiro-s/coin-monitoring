@@ -5,10 +5,14 @@ import { Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { PrincipalCoinsProps } from "./Pincipais-coins";
+import useFavoriteCoinsContext from "../shared/favCoins";
+import { getCoinInfoById } from "../api-coin-gecko/api-requests";
 
 export default function FavoriteCoins() {
     const navigate = useNavigate();
     const [coinsInfo, setCoinsInfo] = useState<PrincipalCoinsProps[]>();
+    const { favoriteCoins } = useFavoriteCoinsContext();
+
 
     const getCoinById = async (event: any) => {
         const idCoin: string = event.data.id;
@@ -16,11 +20,11 @@ export default function FavoriteCoins() {
     }
 
     const getiInfoCoins = () => {
-        const responseFromLocal = localStorage.getItem('favoriteItems');
-        if(responseFromLocal){
-            const reponseParse = JSON.parse(responseFromLocal);
-            setCoinsInfo(reponseParse);
-        }
+        Promise.all(favoriteCoins.map( async (coinId: string) => {
+            const responseInfoCoin = await getCoinInfoById(coinId);
+            setCoinsInfo(responseInfoCoin);
+        }));
+        
     }
 
     useEffect(() => {
