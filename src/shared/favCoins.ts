@@ -6,7 +6,7 @@ interface FavoCoins {
 }
 
 const useFavoriteCoinsContext = create<FavoCoins>((set) => ({
-  favoriteCoins: null,
+  favoriteCoins: [],
   setFavoriteCoinsItems: (items) => set({ favoriteCoins: items }),
 }));
 

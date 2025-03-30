@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getCoinInfoById, getLastDaysPrice } from "../api-coin-gecko/api-requests";
 import { CoinInfoProps } from "../types/coinsTypes";
 import { Line } from 'react-chartjs-2';
@@ -20,11 +20,14 @@ export default function CoinInfoPage() {
   const [infoCoinLastDays, setInfoCoinLastDays] = useState<propsPrice[]>();
   const idItem = paramsSearch.get("id");
   const [isFav, setIsFav] = useState(false);
-  Chart.register(...registerables);
   const { favoriteCoins, setFavoriteCoinsItems } = useFavoriteCoinsContext();
-
+console.log(favoriteCoins)
   const defineColorChangePricePercentage = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? 'text-[#ef4444]' : 'text-[#10B981]';
   const defineColorChangePricePercentageGra = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? '#ef4444' : '#10B981';
+
+  useEffect(() => {
+    Chart.register(...registerables)
+  },[]);
 
   const itemInfo = async () => {
     if (idItem) {
@@ -136,15 +139,15 @@ export default function CoinInfoPage() {
   };
 
   const handleFav = () => {
-    isFav ? setIsFav(false) : setIsFav(true);
-    if(!favoriteCoins.includes(idItem)){
-      setFavoriteCoinsItems(() => [...favoriteCoins, idItem]);
-    }else{
-      const withoutFav = favoriteCoins.filter((item: string) => item !== idItem);
-      setFavoriteCoinsItems(withoutFav);
-    }
-  }
+    setIsFav((prev) => !prev);
+      if (!(favoriteCoins ?? [])?.includes(idItem)) {
+        setFavoriteCoinsItems([...favoriteCoins, idItem]);
+      } else {
+        setFavoriteCoinsItems(favoriteCoins.filter((item: string) => item !== idItem));
+      }
+  };
 
+  useEffect(() => {console.log(favoriteCoins)}, [favoriteCoins])
   return (
     <div className="w-full h-screen flex flex-col">
       <Header />
