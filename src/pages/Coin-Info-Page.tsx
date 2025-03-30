@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCoinInfoById, getLastDaysPrice } from "../api-coin-gecko/api-requests";
 import { CoinInfoProps } from "../types/coinsTypes";
 import { Line } from 'react-chartjs-2';
