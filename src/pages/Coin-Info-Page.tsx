@@ -21,7 +21,6 @@ export default function CoinInfoPage() {
   const idItem = paramsSearch.get("id");
   const [isFav, setIsFav] = useState(false);
   const { favoriteCoins, setFavoriteCoinsItems } = useFavoriteCoinsContext();
-console.log(favoriteCoins)
   const defineColorChangePricePercentage = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? 'text-[#ef4444]' : 'text-[#10B981]';
   const defineColorChangePricePercentageGra = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? '#ef4444' : '#10B981';
 
@@ -138,6 +137,7 @@ console.log(favoriteCoins)
     },
   };
 
+
   const handleFav = () => {
     setIsFav((prev) => !prev);
       if (!(favoriteCoins ?? [])?.includes(idItem)) {
@@ -145,6 +145,8 @@ console.log(favoriteCoins)
       } else {
         setFavoriteCoinsItems(favoriteCoins.filter((item: string) => item !== idItem));
       }
+
+      localStorage.setItem('favoriteCoins', JSON.stringify(favoriteCoins));
   };
 
   useEffect(() => {console.log(favoriteCoins)}, [favoriteCoins])

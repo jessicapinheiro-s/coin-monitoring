@@ -4,8 +4,17 @@ import AllCoins from './pages/All-Coins'
 import About from './pages/About'
 import CoinInfoPage from './pages/Coin-Info-Page'
 import FavoriteCoins from './pages/Favorite-Coins'
+import { useEffect } from 'react'
+import useFavoriteCoinsContext from './shared/favCoins'
 
 function App() {
+  const { setFavoriteCoinsItems } = useFavoriteCoinsContext();
+
+  useEffect(()  => {
+   const favoriteItemsFormLocalStorage = JSON.parse(localStorage.getItem('favoriteCoins') || '[]');
+
+    setFavoriteCoinsItems(favoriteItemsFormLocalStorage);
+  }, []);
   return (
     <>
       <Routes>
