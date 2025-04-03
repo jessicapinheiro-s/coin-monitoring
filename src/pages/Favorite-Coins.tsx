@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { PrincipalCoinsProps } from "./Pincipais-coins";
 import useFavoriteCoinsContext from "../shared/favCoins";
 import { getCoinInfoById } from "../api-coin-gecko/api-requests";
+import { div } from "motion/react-client";
 
 export default function FavoriteCoins() {
     const navigate = useNavigate();
@@ -99,18 +100,24 @@ export default function FavoriteCoins() {
                 <div className="w-full h-full">
                     {
                         coinsInfo && (
-                            <AgGridReact
-                                rowData={coinsInfo}
-                                columnDefs={columnDefs}
-                                pagination={true}
-                                rowHeight={50}
-                                paginationPageSize={50}
-                                paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
-                                onGridReady={(params) => params.api.sizeColumnsToFit()}
-                                defaultColDef={{
-                                    cellStyle: { display: "flex", alignItems: "center", justifyContent: "flex-start" }, // Alinha ao centro
-                                }}
-                            />
+                            <div className="w-full h-full">
+                                <div className="w-full text-center py-4 ">
+                                    <h1 className="text-[29px] font-bold">Favorite Coins</h1>
+                                </div>
+                                <AgGridReact
+                                    rowData={coinsInfo}
+                                    columnDefs={columnDefs}
+                                    pagination={true}
+                                    rowHeight={50}
+                                    paginationPageSize={50}
+                                    paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
+                                    onGridReady={(params) => params.api.sizeColumnsToFit()}
+                                    defaultColDef={{
+                                        cellStyle: { display: "flex", alignItems: "center", justifyContent: "flex-start" }, // Alinha ao centro
+                                    }}
+                                />
+                            </div>
+
                         )
                     }
 
