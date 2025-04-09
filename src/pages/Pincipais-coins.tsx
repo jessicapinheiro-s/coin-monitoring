@@ -7,6 +7,7 @@ import { getPopularCoins } from "../api-coin-gecko/api-requests";
 import Header from "../components/Header";
 import { Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { themeQuartz  } from 'ag-grid-community';
 
 export interface PrincipalCoinsProps {
   id: string
@@ -198,12 +199,13 @@ export default function PrincipaisCoinsPage() {
         <h1 className="text-[29px] font-bold">Rank Coins</h1>
       </div>
 
-      <div className="ag-theme-alpine" style={{ height: 750, width: "80%" }}>
+      <div style={{ height: 750, width: "80%" }}>
         <AgGridReact
           rowData={coinsInfo}
           columnDefs={columnDefs}
           pagination={true}
           rowHeight={50}
+          theme={themeQuartz}
           paginationPageSize={50}
           paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
           onGridReady={(params) => params.api.sizeColumnsToFit()}

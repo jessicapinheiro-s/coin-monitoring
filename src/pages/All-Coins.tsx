@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { ColDef } from "ag-grid-community";
+import { ColDef, themeQuartz } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useEffect, useState } from "react";
@@ -69,12 +69,13 @@ export default function AllCoins() {
       <div className="w-full text-center py-4">
         <h1 className="text-[29px] font-bold">All Coins</h1>
       </div>
-      <div className="ag-theme-alpine" style={{ height: 750, width: "80%" }}>
+      <div style={{ height: 750, width: "80%" }}>
         <AgGridReact
           rowData={coinsInfo ? fiilterDontStartByNumber(coinsInfo?.slice(0, 2000)) : []}
           columnDefs={columnDefs}
           pagination={false}
           rowNumbers={false}
+          theme={themeQuartz}
           onGridReady={(params) => params.api.sizeColumnsToFit()}
         />
       </div>

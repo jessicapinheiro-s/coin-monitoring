@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@ag-grid-community/all-modules": "^27.3.0",
-    "ag-grid-react": "^33.1.1",
+    "ag-grid-community": "^33.2.2",
+    "ag-grid-enterprise": "^33.2.2",
+    "ag-grid-react": "^33.2.2",
     "chart.js": "^4.4.8",
     "lucide-react": "^0.475.0",
     "motion": "^12.4.7",

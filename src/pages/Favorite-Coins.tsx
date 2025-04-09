@@ -1,6 +1,6 @@
 import { AgGridReact } from "ag-grid-react";
 import Header from "../components/Header";
-import { ColDef } from "ag-grid-community";
+import { ColDef, themeQuartz } from "ag-grid-community";
 import { Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -109,6 +109,7 @@ export default function FavoriteCoins() {
                                     pagination={true}
                                     rowHeight={50}
                                     paginationPageSize={50}
+                                    theme={themeQuartz}
                                     paginationPageSizeSelector={[25, 50, 100, 500, 1000]}
                                     onGridReady={(params) => params.api.sizeColumnsToFit()}
                                     defaultColDef={{
