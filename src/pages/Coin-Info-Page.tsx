@@ -260,7 +260,19 @@ export default function CoinInfoPage() {
         </div>
       </div>
 
-      <div className="w-14 p-4 rounded-full flex flex-col items-start justify-start lg:items-center lg:justify-center absolute bottom-3 right-3 bg-yellow-300">
+      <div className="
+            w-14 
+            p-4 
+            rounded-full f
+            lex flex-col 
+            items-start 
+            justify-start 
+            lg:items-center 
+            lg:justify-center 
+            fixed 
+            bottom-3 
+            right-3
+           bg-yellow-300">
         <div>
           {
             isFav && (
