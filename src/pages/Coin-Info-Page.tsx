@@ -25,7 +25,7 @@ export default function CoinInfoPage() {
   const defineColorChangePricePercentageGra = (infoThisCoin?.market_data?.price_change_percentage_24h ?? 0).toString().includes('-') ? '#ef4444' : '#10B981';
 
   useEffect(() => {
-    Chart.register(...registerables)
+    Chart.register(...registerables);
   },[]);
 
   const itemInfo = async () => {

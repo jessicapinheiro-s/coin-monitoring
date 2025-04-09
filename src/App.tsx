@@ -6,10 +6,11 @@ import CoinInfoPage from './pages/Coin-Info-Page'
 import FavoriteCoins from './pages/Favorite-Coins'
 import { useEffect } from 'react'
 import useFavoriteCoinsContext from './shared/favCoins'
+import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 
 function App() {
   const { setFavoriteCoinsItems } = useFavoriteCoinsContext();
-
+  ModuleRegistry.registerModules([AllCommunityModule]);
   useEffect(()  => {
    const favoriteItemsFormLocalStorage = JSON.parse(localStorage.getItem('favoriteCoins') || '[]');
 

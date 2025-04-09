@@ -2,15 +2,12 @@ import { AgGridReact } from "ag-grid-react";
 import { ColDef } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { useEffect, useState } from "react";
 import { getAllCoins } from "../api-coin-gecko/api-requests";
 import Header from "../components/Header";
 import { Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Register all Community features
-ModuleRegistry.registerModules([AllCommunityModule]);
 export interface propsAllCoins {
   id: string,
   symbol: string,

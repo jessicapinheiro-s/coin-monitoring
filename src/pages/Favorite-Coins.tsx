@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { PrincipalCoinsProps } from "./Pincipais-coins";
 import useFavoriteCoinsContext from "../shared/favCoins";
 import { getCoinInfoById } from "../api-coin-gecko/api-requests";
-import { div } from "motion/react-client";
 
 export default function FavoriteCoins() {
     const navigate = useNavigate();
