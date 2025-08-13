@@ -1,15 +1,14 @@
-# Monitoramento de Moedas Digitais
+# Sistema de Gerenciamento de Estoque — Python
 
-#### Essa aplicação visa dar uma visão geral para o usuário sobre as moedas digitais existente. Os itens são obtidos de uma API, que os atualiza em tempo real. Nessa aplicação o usuário pode:
-- Favoritar alguma moeda
-- Analisar os dados detalhados da moedade visualizado uma grid de informações e gráficos
-- Verificar informações importantes das moedas mais importantes atualmente via grid
-- Visualizar todas as moedas existente via Grid
+Este projeto é um **aplicativo de console em Python** para gerenciamento e análise de estoque, voltado para pequenas lojas ou como exemplo didático de manipulação de listas e dicionários.
 
-## 🚀 Tecnologias
+## 🔹 Funcionalidades
+- **Total de itens no estoque** → Soma a quantidade total de produtos cadastrados.
+- **Valor total do estoque** → Calcula o valor monetário de todos os produtos.
+- **Produtos com estoque baixo** → Lista produtos abaixo de um limite mínimo definido.
+- **Valor por categoria** → Mostra o valor total dos produtos agrupados por categoria.
+- **Fornecedor com maior valor em produtos** → Identifica qual fornecedor possui o maior valor em mercadorias no estoque.
 
-- React.js
-- Vite
-- TypeScript
-- Tailwind CSS
-- API Rest
+## 🔹 Tecnologias Utilizadas
+- **Python 3**
+- **Biblioteca locale** para formatação monetária no padrão brasileiro.
